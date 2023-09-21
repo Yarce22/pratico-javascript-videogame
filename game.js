@@ -8,6 +8,7 @@ const btnDown = document.querySelector('#down');
 let canvasSize;
 let elementsSize;
 let lvl = 0;
+let lives = 3
 
 const playerPosition = {
     x: undefined,
@@ -98,7 +99,6 @@ function movePlayer() {
     })
 
     if (giftCollision) {
-        console.log('Pasaste de lvl');
         function lvlwin() {
             lvl++;
             startGame();
@@ -107,7 +107,21 @@ function movePlayer() {
     }
 
     if (enemyCollision) {
-        console.log('Chocaste con una bomba');
+        function collision() {
+            lives--;
+            console.log('your: ' + lives);
+
+            if ( lives <= 0) {
+                lvl = 0;
+                lives = 3;
+                console.log('your: ' + lives);
+            }
+
+            playerPosition.x = undefined;
+            playerPosition.y = undefined;
+            startGame();
+        };
+        collision();
     }
 
     game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
@@ -121,10 +135,10 @@ btnRight.addEventListener('click', moveRight);
 btnDown.addEventListener('click', moveDown);
 
 function moveByKeys(event) {
-    if (event.key == 'ArrowUp') moveUp();
-    else if (event.key == 'ArrowLeft') moveLeft();
-    else if (event.key == 'ArrowRight') moveRight();
-    else if (event.key == 'ArrowDown') moveDown();
+    if (event.key == 'ArrowUp' || event.key == 'w' || event.key == 'W') moveUp();
+    else if (event.key == 'ArrowLeft' || event.key == 'a' || event.key == 'A') moveLeft();
+    else if (event.key == 'ArrowRight' || event.key == 'd' || event.key == 'D') moveRight();
+    else if (event.key == 'ArrowDown' || event.key == 's' || event.key == 'S') moveDown();
 }
 function moveUp() {
     if ((playerPosition.y - elementsSize) < elementsSize) {
