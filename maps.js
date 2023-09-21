@@ -50,4 +50,4 @@ const emojis = {
     XX-XXXXXXX
     XX-----OXX
     XXXXXXXXXX
-  `);s
+  `);
