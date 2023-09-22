@@ -5,9 +5,14 @@ const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
 const spanLives = document.querySelector('#lives')
+const spanTime = document.querySelector('#time')
+
 
 let canvasSize;
 let elementsSize;
+let timeStart;
+let timePlayer;
+let timeInterval;
 let lvl = 0;
 let lives = 3
 
@@ -28,15 +33,15 @@ window.addEventListener('resize', setCanvasSize);
 
 function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
-        canvasSize = (window.innerWidth * 0.8).toFixed(0);
+        canvasSize = Number((window.innerWidth * 0.8).toFixed(0));
     } else {
-        canvasSize = (window.innerHeight * 0.8).toFixed(0);
+        canvasSize = Number((window.innerHeight * 0.8).toFixed(0));
     }
     
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
 
-    elementsSize = canvasSize / 10;
+    elementsSize = Number((canvasSize / 10).toFixed(0));
 
     startGame();
 }
@@ -49,11 +54,17 @@ function startGame() {
 
     if (!map) {
         function gameFinish() {
-            console.log('Terminnaste el juego');
+            console.log('Terminaste el juego');
+            clearInterval(timeInterval);
         };
         gameFinish();
         return;
     };
+
+    if (!timeStart) {
+        timeStart = Date.now();
+        timeInterval = setInterval (showTime, 100);
+    }
 
     
     showLives();
@@ -67,8 +78,8 @@ function startGame() {
     mapRowCols.forEach((row, rowI) => {
     row.forEach((col, colI) => {
         const emoji = emojis[col];
-        const posX = elementsSize * (colI + 1);
-        const posY = elementsSize * (rowI + 1);
+        const posX = Number((elementsSize * (colI + 1)).toFixed(0));
+        const posY = Number((elementsSize * (rowI + 1)).toFixed(0));
 
         if (col == 'O') {
             if (!playerPosition.x && !playerPosition.y) {
@@ -93,12 +104,12 @@ function startGame() {
 }
 
 function movePlayer() {
-    const giftCollisionX = playerPosition.x.toFixed(1) == giftPosition.x.toFixed(1);
-    const giftCollisionY = playerPosition.y.toFixed(1) == giftPosition.y.toFixed(1);
+    const giftCollisionX = playerPosition.x == giftPosition.x;
+    const giftCollisionY = playerPosition.y == giftPosition.y;
     const giftCollision = giftCollisionX && giftCollisionY;
     const enemyCollision = enemiesPositions.find(enemy => {
-        const enemyCollisionX = enemy.x.toFixed(1) == playerPosition.x.toFixed(1);
-        const enemyCollisionY = enemy.y.toFixed(1) == playerPosition.y.toFixed(1);
+        const enemyCollisionX = enemy.x == playerPosition.x;
+        const enemyCollisionY = enemy.y == playerPosition.y;
         return enemyCollisionX && enemyCollisionY;
     })
 
@@ -108,6 +119,7 @@ function movePlayer() {
             startGame();
         };
         lvlwin();
+
     }
 
     if (enemyCollision) {
@@ -133,6 +145,10 @@ function movePlayer() {
 function showLives() {
     const livesArray = Array(lives).fill(emojis['LIVES']);
     spanLives.innerHTML = livesArray;
+}
+
+function showTime() {
+    spanTime.innerHTML = Date.now() - timeStart;
 }
 
 window.addEventListener('keydown', moveByKeys);
