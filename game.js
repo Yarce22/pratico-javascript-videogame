@@ -51,6 +51,7 @@ function setCanvasSize() {
 function startGame() {
     game.font = elementsSize + 'px Verdana';
     game.textAlign = 'end';
+    localStorage.getItem('recordTime');
 
     const map = maps[lvl];
 
@@ -64,15 +65,14 @@ function startGame() {
             if (recordTime) {
                 if (recordTime > playerTime) {
                     localStorage.setItem('recordTime', playerTime);
-                    spanRecord.innerHTML = localStorage.getItem('recordTime');
+                    spanRecord.innerHTML = localStorage.getItem('recordTime')
                 }
             } else {
                 localStorage.setItem('recordTime', playerTime)
-                spanRecord.innerHTML = localStorage.getItem('recordTime');
             }
         };
         gameFinish();
-        return;
+        return
     };
 
     if (!timeStart) {
