@@ -4,6 +4,7 @@ const btnUp = document.querySelector('#up');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
+const btnReset = document.querySelector('#reset');
 const spanLives = document.querySelector('#lives');
 const spanTime = document.querySelector('#time');
 const spanRecord = document.querySelector('#record');
@@ -52,6 +53,7 @@ function startGame() {
     game.font = elementsSize + 'px Verdana';
     game.textAlign = 'end';
     localStorage.getItem('recordTime');
+    
 
     const map = maps[lvl];
 
@@ -147,6 +149,7 @@ function movePlayer() {
 
             if ( lives <= 0) {
                 lvl = 0;
+
                 lives = 3;
             }
 
@@ -174,6 +177,7 @@ btnUp.addEventListener('click', moveUp);
 btnLeft.addEventListener('click', moveLeft);
 btnRight.addEventListener('click', moveRight);
 btnDown.addEventListener('click', moveDown);
+btnReset.addEventListener('click', reload);
 
 function moveByKeys(event) {
     if (event.key == 'ArrowUp' || event.key == 'w' || event.key == 'W') moveUp();
@@ -212,4 +216,7 @@ function moveDown() {
         playerPosition.y += elementsSize;
         startGame();
     }
+}
+function reload () {
+    location.reload()
 }
