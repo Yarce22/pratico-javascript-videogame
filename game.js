@@ -33,15 +33,17 @@ window.addEventListener('resize', setCanvasSize);
 
 function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
-        canvasSize = Number((window.innerWidth * 0.8).toFixed(0));
+        canvasSize = Number((window.innerWidth * 0.7).toFixed(0));
     } else {
-        canvasSize = Number((window.innerHeight * 0.8).toFixed(0));
+        canvasSize = Number((window.innerHeight * 0.7).toFixed(0));
     }
     
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
 
     elementsSize = Number((canvasSize / 10).toFixed(0));
+    playerPosition.y = undefined;
+    playerPosition.x = undefined;
 
     startGame();
 }
